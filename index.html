@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Pong</title>
+    <style>
+    	* { padding: 0; margin: 0; }
+    	canvas { background: black;}
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas"></canvas>
+    <script>
+        var canvas;
+		var ctx;
+        var P1y
+		var P2y
+		var Bx
+		var By
+		var speed=1
+		var game=false
+		var dbx=-1
+		var dby
+        var P1
+		var P2
+		var a
+		function getRandomInt(min, max) {
+  			return Math.floor(Math.random() * (max - min)) + min;
+		}
+		document.addEventListener("keydown", keyDownHandler);
+		function keyDownHandler(e){
+			if(e.keyCode == 38&&P1y>0) {
+        		P1y-=5;
+			}else if(e.keyCode == 40&&P1y<canvas.height-50) {
+        		P1y+=5;
+			}
+			if (e.code=="Enter"&&game==false) {
+				game=true
+				P1y=canvas.height/2-25
+				P2y=P1y
+				Bx=canvas.width/2
+				By=canvas.height/2
+				dby=getRandomInt(-1,2)
+				if (dby==0) {
+					dby++
+				}
+				P1=0
+				P2=0
+        		a=setInterval(draw, 10);
+			}
+    	}  
+        window.onload = function(){
+    		canvas = document.getElementById('myCanvas');
+    		canvas.width = window.innerWidth;
+    		canvas.height = window.innerHeight;
+    		ctx = canvas.getContext('2d');
+			ctx.font = '150px Times New Roman'
+			ctx.fillStyle='white'
+			ctx.strokeStyle='white'
+			ctx.fillText( "Pong" , canvas.width/2-150, 150)
+			ctx.strokeText( "Pong" , canvas.width/2-150, 150)
+			ctx.closePath()
+			ctx.font = '20px Times New Roman'
+			ctx.fillStyle='white'
+			ctx.strokeStyle='white'
+			ctx.fillText( "Нажмите Enter" , canvas.width/2-60, 200)
+			ctx.strokeText( "Нажмите Enter" , canvas.width/2-60, 200)
+			ctx.closePath()
+        }
+        function draw() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height)
+			if (P1==10) {
+				game=false
+				ctx.font = '100px Times New Roman'
+				ctx.fillStyle='white'
+				ctx.strokeStyle='white'
+				ctx.fillText( "Вы выйграли" , canvas.width/2-300, 150)
+				ctx.strokeText( "Вы выйграли" , canvas.width/2-300, 150)
+				ctx.closePath()	
+				ctx.font = '20px Times New Roman'
+				ctx.fillStyle ='white'
+				ctx.strokeStyle='white'
+				ctx.fillText( "Нажмите Enter" , canvas.width/2-70, 200)
+				ctx.strokeText( "Нажмите Enter" , canvas.width/2-70, 200)
+				ctx.closePath()
+				clearInterval(a)
+			}
+			if (P2==10) {
+				game=false
+				ctx.font = '100px Times New Roman'
+				ctx.fillStyle='white'
+				ctx.strokeStyle='white'
+				ctx.fillText( "Вы проиграли" , canvas.width/2-300, 150)
+				ctx.strokeText( "Вы проиграли" , canvas.width/2-300, 150)
+				ctx.closePath()	
+				ctx.font = '20px Times New Roman'
+				ctx.fillStyle ='white'
+				ctx.strokeStyle='white'
+				ctx.fillText( "Нажмите Enter" , canvas.width/2-70, 200)
+				ctx.strokeText( "Нажмите Enter" , canvas.width/2-70, 200)
+				ctx.closePath()
+				clearInterval(a)
+			}
+			//Сщёт
+            ctx.font = '40px Times New Roman'
+			ctx.fillStyle='white'
+			ctx.strokeStyle='white'
+			ctx.fillText( P1 , canvas.width/2-60, 50)
+			ctx.strokeText( P1 , canvas.width/2-60, 50)
+			ctx.fillText( P2 , canvas.width/2+40, 50)
+			ctx.strokeText( P2 , canvas.width/2+40, 50)
+			ctx.closePath()
+			//Линия делящая игровое поле на две части
+			ctx.beginPath()
+			ctx.lineWidth = 2;
+			ctx.strokeStyle = 'white';
+			ctx.moveTo(canvas.width/2, 0);
+			ctx.lineTo(canvas.width/2, canvas.height);
+			ctx.stroke();
+			//Игрок
+            ctx.beginPath()
+        	ctx.rect(100,P1y,10,50)
+        	ctx.fillStyle = "white"
+        	ctx.fill()
+			ctx.closePath()
+			//Компьютер
+			ctx.beginPath()
+        	ctx.rect(canvas.width-100,P2y,10,50)
+        	ctx.fillStyle = "white"
+        	ctx.fill()
+			ctx.closePath()
+			//Мячик
+			ctx.beginPath();
+    		ctx.arc(Bx, By, 10, 0, Math.PI*2);
+    		ctx.fillStyle = "white";
+    		ctx.fill();
+			ctx.closePath();
+
+			if(By + dby > canvas.height-10 || By + dby < 10) {
+				dby = -dby;
+			}
+
+			if((Bx + dbx < 110&&Bx + dbx>100&&By > P1y && By < P1y + 50)||(Bx + dbx >canvas.width-110&&Bx + dbx<canvas.width-100&&By > P2y && By < P2y + 50)) {
+					dbx = -dbx;
+					speed+=0.5
+			}
+
+			if (Bx<0) {
+				P2++
+				Bx=canvas.width/2
+				By=canvas.height/2
+				speed=1
+				dby=getRandomInt(-1,2)
+				if (dby==0) {
+					dby++
+				}
+			}
+
+			if (Bx>canvas.width) {
+				P1++
+				Bx=canvas.width/2
+				By=canvas.height/2
+				speed=1
+				dby=getRandomInt(-1,2)
+				if (dby==0) {
+					dby++
+				}
+			}
+			Bx += dbx*speed;
+			By += dby*speed;
+			if (Bx>canvas.width/2) {
+				if (P2y+25>By) {
+					P2y-=5
+				}
+				if (P2y+25<By) {
+					P2y+=5
+				}
+			}
+		}
+    </script>
+</body>
+</html>
