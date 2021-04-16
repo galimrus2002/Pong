@@ -29,9 +29,9 @@
 		}
 		document.addEventListener("keydown", keyDownHandler);
 		function keyDownHandler(e){
-			if(e.keyCode == 38&&P1y>0) {
+			if(e.keyCode == "W"&&P1y>0) {
         		P1y-=5;
-			}else if(e.keyCode == 40&&P1y<canvas.height-50) {
+			}else if(e.keyCode == "D"&&P1y<canvas.height-50) {
         		P1y+=5;
 			}
 			if (e.code=="Enter"&&game==false) {
@@ -170,10 +170,10 @@
 			By += dby*speed;
 			if (Bx>canvas.width/2) {
 				if (P2y+25>By) {
-					P2y-=5
+					P2y-=3
 				}
 				if (P2y+25<By) {
-					P2y+=5
+					P2y+=3
 				}
 			}
 		}
