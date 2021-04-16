@@ -29,9 +29,9 @@
 		}
 		document.addEventListener("keydown", keyDownHandler);
 		function keyDownHandler(e){
-			if(e.keyCode == KeyW&&P1y>0) {
+			if(e.code == "KeyW"&&P1y>0) {
         		P1y-=5;
-			}else if(e.keyCode == KeyD&&P1y<canvas.height-50) {
+			}else if(e.code == "KeyS"&&P1y<canvas.height-50) {
         		P1y+=5;
 			}
 			if (e.code=="Enter"&&game==false) {
