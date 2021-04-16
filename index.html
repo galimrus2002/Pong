@@ -30,9 +30,9 @@
 		document.addEventListener("keydown", keyDownHandler);
 		function keyDownHandler(e){
 			if(e.code == "KeyW"&&P1y>0) {
-        		P1y-=5;
+        		P1y-=7;
 			}else if(e.code == "KeyS"&&P1y<canvas.height-50) {
-        		P1y+=5;
+        		P1y+=7;
 			}
 			if (e.code=="Enter"&&game==false) {
 				game=true
@@ -170,10 +170,10 @@
 			By += dby*speed;
 			if (Bx>canvas.width/2) {
 				if (P2y+25>By) {
-					P2y-=3
+					P2y-=1
 				}
 				if (P2y+25<By) {
-					P2y+=3
+					P2y+=1
 				}
 			}
 		}
